@@ -222,7 +222,6 @@ void	EditShowUnicodeControlCharacter(bool bShow) noexcept;
 bool	EditSortDlg(HWND hwnd, EditSortFlag *piSortFlags) noexcept;
 bool	EditAlignDlg(HWND hwnd, EditAlignMode *piAlignMode) noexcept;
 void	EditSelectionAction(int action) noexcept;
-void	TryBrowseFile(HWND hwnd, LPCWSTR pszFile, bool bWarn) noexcept;
 
 enum OpenSelectionType {
 	OpenSelectionType_None,

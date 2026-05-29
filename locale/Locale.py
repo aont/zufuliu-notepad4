@@ -9,7 +9,6 @@ import subprocess
 app = os.path.basename(__file__)
 localeDir = os.getcwd()
 notepad4_src = os.path.abspath('../src/Notepad4.rc')
-matepath_src = os.path.abspath('../matepath/src/matepath.rc')
 
 def get_available_locales():
 	result = []
@@ -37,22 +36,16 @@ def patch_vc_project_file(path, src_lang, language):
 	with open(path, 'w', encoding='utf-8', newline='\n') as fd:
 		fd.write(doc)
 
-def update_resource_include_path(path, matepath):
+def update_resource_include_path(path):
 	with open(path, encoding='utf-8', newline='\n') as fd:
 		doc = fd.read()
-	if matepath:
-		# resource path
-		doc = doc.replace(r'..\\res', r'..\\..\\matepath\\res')
-		# include path
-		doc = re.sub(r'^(#include\s+")(.+)(")', r'\1../../matepath/src/\2\3', doc, flags=re.MULTILINE)
-	else:
-		# resource path
-		doc = doc.replace(r'..\\res', r'..\\..\\res')
-		# include path
-		doc = re.sub(r'^(#include\s+")(.+)(")', r'\1../../src/\2\3', doc, flags=re.MULTILINE)
-		# string table for lexers and styles
-		doc = re.sub(r'^//(#include\s+")(.+)(")', r'\1../../src/\2\3', doc, flags=re.MULTILINE)
-		doc = re.sub(r'^#if\s+0\s*//\s*(NP2_ENABLE_LOCALIZE\w+)', r'#if \1', doc, flags=re.MULTILINE)
+	# resource path
+	doc = doc.replace(r'..\\res', r'..\\..\\res')
+	# include path
+	doc = re.sub(r'^(#include\s+")(.+)(")', r'\1../../src/\2\3', doc, flags=re.MULTILINE)
+	# string table for lexers and styles
+	doc = re.sub(r'^//(#include\s+")(.+)(")', r'\1../../src/\2\3', doc, flags=re.MULTILINE)
+	doc = re.sub(r'^#if\s+0\s*//\s*(NP2_ENABLE_LOCALIZE\w+)', r'#if \1', doc, flags=re.MULTILINE)
 
 	doc = re.sub(r'^//(#if\s+!NP2_ENABLE_APP_LOCALIZATION_DLL)', r'\1', doc, flags=re.MULTILINE)
 	doc = re.sub(r'^//(#endif\s*//\s*NP2_ENABLE_APP_LOCALIZATION_DLL)', r'\1', doc, flags=re.MULTILINE)
@@ -65,51 +58,35 @@ def make_new_localization(language):
 	if not os.path.exists(target):
 		os.makedirs(target)
 
-	matepath_dest = os.path.join(target, 'matepath.rc')
 	notepad4_dest = os.path.join(target, 'Notepad4.rc')
-	shutil.copyfile(matepath_src, matepath_dest)
 	shutil.copyfile(notepad4_src, notepad4_dest)
 
-	update_resource_include_path(matepath_dest, True)
-	update_resource_include_path(notepad4_dest, False)
+	update_resource_include_path(notepad4_dest)
 
 	src_lang = 'zh-Hans'
 	src_folder = os.path.join(localeDir, src_lang)
-	matepath_vcxproj_src = os.path.join(src_folder, f'matepath({src_lang}).vcxproj')
 	notepad4_vcxproj_src = os.path.join(src_folder, f'Notepad4({src_lang}).vcxproj')
-	matepath_vcxproj = os.path.join(target, f'matepath({language}).vcxproj')
 	notepad4_vcxproj = os.path.join(target, f'Notepad4({language}).vcxproj')
 
-	shutil.copyfile(matepath_vcxproj_src, matepath_vcxproj)
-	shutil.copyfile(matepath_vcxproj_src + '.filters', matepath_vcxproj + '.filters')
 	shutil.copyfile(notepad4_vcxproj_src, notepad4_vcxproj)
 	shutil.copyfile(notepad4_vcxproj_src + '.filters', notepad4_vcxproj + '.filters')
 
-	patch_vc_project_file(matepath_vcxproj, src_lang, language)
 	patch_vc_project_file(notepad4_vcxproj, src_lang, language)
 
-	matepath_dest = os.path.basename(matepath_dest)
 	notepad4_dest = os.path.basename(notepad4_dest)
-	matepath_vcxproj = os.path.basename(matepath_vcxproj)
 	notepad4_vcxproj = os.path.basename(notepad4_vcxproj)
 	print(f"""{app}: resources and projects added for {language}.
-    Please manually update language tags in {matepath_dest} and {notepad4_dest},
-    and open Locale.sln with Visual Studio to add project {matepath_vcxproj} and {notepad4_vcxproj}.""")
+    Please manually update language tags in {notepad4_dest},
+    and open Locale.sln with Visual Studio to add project {notepad4_vcxproj}.""")
 
 
-def restore_resource_include_path(path, matepath):
+def restore_resource_include_path(path):
 	with open(path, encoding='utf-8', newline='\n') as fd:
 		doc = fd.read()
-	if matepath:
-		# include path
-		doc = doc.replace('../../matepath/src/', '')
-		# resource path
-		doc = doc.replace(r'..\\matepath\\', '')
-	else:
-		# include path
-		doc = doc.replace('../../src/', '')
-		# resource path
-		doc = doc.replace(r'..\\..\\res', r'..\\res')
+	# include path
+	doc = doc.replace('../../src/', '')
+	# resource path
+	doc = doc.replace(r'..\\..\\res', r'..\\res')
 
 	with open(path, 'w', encoding='utf-8', newline='\n') as fd:
 		fd.write(doc)
@@ -123,15 +100,12 @@ def copy_back_localized_resources(language):
     on first run to ensure proper backup for English resources.""")
 	else:
 		os.makedirs(backupDir)
-		shutil.copyfile(matepath_src, os.path.join(backupDir, 'matepath.rc'))
 		shutil.copyfile(notepad4_src, os.path.join(backupDir, 'Notepad4.rc'))
 
 	folder = os.path.join(localeDir, language)
-	shutil.copyfile(os.path.join(folder, 'matepath.rc'), matepath_src)
 	shutil.copyfile(os.path.join(folder, 'Notepad4.rc'), notepad4_src)
 
-	restore_resource_include_path(matepath_src, True)
-	restore_resource_include_path(notepad4_src, False)
+	restore_resource_include_path(notepad4_src)
 
 	print(f"""{app}: resources for building standalone localized program for {language} are ready.
     you can copy English resources back by run: {app} back en""")
@@ -437,12 +411,9 @@ def extract_resource_string(language, reversion):
 
 	extractor = StringExtractor()
 	if language == 'en':
-		extractor.extract(matepath_src, reversion)
 		extractor.extract(notepad4_src, reversion)
 	else:
 		folder = os.path.join(localeDir, language)
-		path = os.path.join(folder, 'matepath.rc')
-		extractor.extract(path, reversion)
 		path = os.path.join(folder, 'Notepad4.rc')
 		extractor.extract(path, reversion)
 

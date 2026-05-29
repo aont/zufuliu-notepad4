@@ -59,9 +59,6 @@ def update_all_copyright_year():
 	print('update copyright year to:', year)
 	for path in [
 		'../doc/License.txt',
-		'../matepath/doc/License.txt',
-		'../matepath/src/matepath.rc',
-		'../matepath/src/version.h',
 		'../scintilla/License.txt',
 		'../src/Notepad4.rc',
 		'../src/Version.h',
@@ -152,7 +149,6 @@ def generate_compile_commands(target, march='', cxx=False):
 		('../scintilla/lexlib', ['../include']),
 		('../scintilla/src', ['../include', '../lexlib']),
 		('../scintilla/win32', ['../include', '../src']),
-		('../matepath/src', []),
 	]
 
 	def include_path(folder, path):

@@ -169,7 +169,6 @@ int		iPrintColor;
 int		iPrintZoom = 100;
 RECT	pageSetupMargin;
 static bool bSaveBeforeRunningTools;
-bool bOpenFolderWithMatepath;
 FileWatchingMode iFileWatchingMode;
 int iFileWatchingOption;
 bool	bResetFileWatching;
@@ -2565,7 +2564,6 @@ void MsgInitMenu(HWND hwnd, WPARAM wParam, LPARAM lParam) noexcept {
 	CheckCmd(hmenu, IDM_VIEW_NOSAVERECENT, bSaveRecentFiles);
 	CheckCmd(hmenu, IDM_VIEW_NOSAVEFINDREPL, bSaveFindReplace);
 	CheckCmd(hmenu, IDM_VIEW_SAVEBEFORERUNNINGTOOLS, bSaveBeforeRunningTools);
-	CheckCmd(hmenu, IDM_SET_OPEN_FOLDER_MATEPATH, bOpenFolderWithMatepath);
 
 	CheckCmd(hmenu, IDM_VIEW_CHANGENOTIFY, (iFileWatchingMode != FileWatchingMode_None));
 	CheckCmd(hmenu, IDM_SET_FILE_AUTOSAVE, (iAutoSaveOption & AutoSaveOption_Periodic) && dwAutoSavePeriod != 0);
@@ -2698,7 +2696,7 @@ LRESULT MsgCommand(HWND hwnd, WPARAM wParam, LPARAM lParam) {
 
 	case IDT_FILE_BROWSE:
 	case IDM_FILE_BROWSE:
-		TryBrowseFile(hwnd, szCurFile, true);
+		OpenContainingFolder(hwnd, szCurFile, true);
 		break;
 
 	case IDM_FILE_NEWWINDOW:
@@ -4269,10 +4267,6 @@ LRESULT MsgCommand(HWND hwnd, WPARAM wParam, LPARAM lParam) {
 		bSaveBeforeRunningTools = !bSaveBeforeRunningTools;
 		break;
 
-	case IDM_SET_OPEN_FOLDER_MATEPATH:
-		bOpenFolderWithMatepath = !bOpenFolderWithMatepath;
-		break;
-
 	case IDM_VIEW_CHANGENOTIFY:
 		if (ChangeNotifyDlg(hwnd)) {
 			InstallFileWatching(false);
@@ -5257,7 +5251,6 @@ void LoadSettings() noexcept {
 	pageSetupMargin.bottom = max(iValue, -1);
 
 	bSaveBeforeRunningTools = section.GetBool(L"SaveBeforeRunningTools", false);
-	bOpenFolderWithMatepath = section.GetBool(L"OpenFolderWithMatepath", true);
 
 	iValue = section.GetInt(L"FileWatchingMode", FileWatchingMode_AutoReload);
 	iFileWatchingMode = clamp(static_cast<FileWatchingMode>(iValue), FileWatchingMode_None, FileWatchingMode_AutoReload);
@@ -5517,7 +5510,6 @@ void SaveSettings(bool bSaveSettingsNow) noexcept {
 	section.SetIntEx(L"PrintMarginBottom", pageSetupMargin.bottom, -1);
 
 	section.SetBoolEx(L"SaveBeforeRunningTools", bSaveBeforeRunningTools, false);
-	section.SetBoolEx(L"OpenFolderWithMatepath", bOpenFolderWithMatepath, true);
 
 	section.SetIntEx(L"FileWatchingMode", iFileWatchingMode, FileWatchingMode_AutoReload);
 	section.SetIntEx(L"FileWatchingOption", iFileWatchingOption, FileWatchingOption_None);

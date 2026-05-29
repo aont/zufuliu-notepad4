@@ -712,7 +712,6 @@ BEGIN
 	POPUP "&Tools"
 	BEGIN
 		MENUITEM "Sa&ve Before Running Tools",		IDM_VIEW_SAVEBEFORERUNNINGTOOLS
-		MENUITEM "Use &matepath to Open Folder",	IDM_SET_OPEN_FOLDER_MATEPATH
 		MENUITEM SEPARATOR
 		MENUITEM "Run as &Administrator",			IDM_FILE_RELAUNCH_ELEVATED
 		MENUITEM "&Restart",						IDM_FILE_RESTART
@@ -1836,7 +1835,6 @@ STRINGTABLE
 BEGIN
     IDS_ERR_LOADFILE        "Error loading ""%s""."
     IDS_ERR_SAVEFILE        "Error saving ""%s""."
-    IDS_ERR_BROWSE          "No file browser plugin was found.\nThe matepath file browser plugin can be downloaded from\nhttps://github.com/zufuliu/notepad4/releases.\n\nOpen download page?"
     IDS_ERR_MRUDLG          "No access to the selected file!\nWould you like to remove it from the list?"
     IDS_ERR_CREATELINK      "Error creating the Desktop link."
     IDS_ERR_PREVWINDISABLED "Existing Notepad4 window is busy or has an active dialog box.\nWould you like to open another Notepad4 window?"

@@ -713,7 +713,6 @@ BEGIN
 	POPUP "&Инструменты"
 	BEGIN
 		MENUITEM "Сох&ранять перед открытием инструментов",						IDM_VIEW_SAVEBEFORERUNNINGTOOLS
-		MENUITEM "Использовать &Matepath для открытия папки",						IDM_SET_OPEN_FOLDER_MATEPATH
 		MENUITEM SEPARATOR
 		MENUITEM "Запустить с &правами администратора",							IDM_FILE_RELAUNCH_ELEVATED
 		MENUITEM "&Перезапустить программу",								IDM_FILE_RESTART
@@ -1837,7 +1836,6 @@ STRINGTABLE
 BEGIN
     IDS_ERR_LOADFILE        "Ошибка загрузки ""%s""."
     IDS_ERR_SAVEFILE        "Ошибка сохранения ""%s""."
-    IDS_ERR_BROWSE          "Не найден плагин для просмотра файлов.\nПлагин matepath для просмотра файлов доступен здесь:\nhttps://github.com/zufuliu/notepad4/releases.\n\nОткрыть страницу загрузки?"
     IDS_ERR_MRUDLG          "Нет доступа к выбранному файлу!\nУдалить его из списка?"
     IDS_ERR_CREATELINK      "Ошибка создания ярлыка на рабочем столе."
     IDS_ERR_PREVWINDISABLED "Существующее окно Notepad4 занято или имеет активное диалоговое окно.\nОткрыть другое окно Notepad4?"

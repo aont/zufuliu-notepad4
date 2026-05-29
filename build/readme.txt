@@ -1,4 +1,4 @@
-Build Notepad4 and matepath
+Build Notepad4
 	https://github.com/zufuliu/notepad4/wiki/Build-Notepad4
 	https://github.com/zufuliu/notepad4/wiki/Localization
 

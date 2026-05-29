@@ -712,7 +712,6 @@ BEGIN
 	POPUP "&Narzędzia"
 	BEGIN
 		MENUITEM "&Zapisz przed uruchomieniem narzędzi",IDM_VIEW_SAVEBEFORERUNNINGTOOLS
-		MENUITEM "Otwieraj foldery przy użyciu &matepath",IDM_SET_OPEN_FOLDER_MATEPATH
 		MENUITEM SEPARATOR
 		MENUITEM "Uruchom jako &administrator",		IDM_FILE_RELAUNCH_ELEVATED
 		MENUITEM "Uruchom &ponownie",				IDM_FILE_RESTART
@@ -1836,7 +1835,6 @@ STRINGTABLE
 BEGIN
     IDS_ERR_LOADFILE        "Błąd podczas ładowania ""%s""."
     IDS_ERR_SAVEFILE        "Błąd podczas zapisu ""%s""."
-    IDS_ERR_BROWSE          "Nie znaleziono wtyczki przeglądarki plików\nWtyczkę przeglądarki plików matepath można pobrać z\nhttps://github.com/zufuliu/notepad4/releases.\n\nOtworzyć stronę pobierania?"
     IDS_ERR_MRUDLG          "Brak dostępu do wybranego pliku!\nCzy chcesz usunąć go z listy?"
     IDS_ERR_CREATELINK      "Błąd podczas tworzenia skrótu na pulpicie."
     IDS_ERR_PREVWINDISABLED "Istniejące okno programu jest zajęte lub ma aktywne okno dialogowe.\nCzy chcesz otworzyć nowe okno?"

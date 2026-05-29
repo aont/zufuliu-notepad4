@@ -6955,63 +6955,6 @@ void EditSelectionAction(int action) noexcept {
 	NP2HeapFree(lpszCommand);
 }
 
-void TryBrowseFile(HWND hwnd, LPCWSTR pszFile, bool bWarn) noexcept {
-	WCHAR tchParam[MAX_PATH + 4];
-	WCHAR tchExeFile[MAX_PATH + 4];
-	WCHAR tchTemp[MAX_PATH + 4];
-	SetStrEmpty(tchParam);
-	SetStrEmpty(tchExeFile);
-
-	if (IniGetString(INI_SECTION_NAME_FLAGS, L"filebrowser.exe", L"", tchTemp, COUNTOF(tchTemp))) {
-		ExtractFirstArgument(tchTemp, tchExeFile, tchParam);
-	}
-	if (StrIsEmpty(tchExeFile)) {
-		lstrcpy(tchExeFile, L"matepath.exe");
-	}
-	if (PathIsRelative(tchExeFile)) {
-		lstrcpy(tchTemp, szExeRealPath);
-		PathRemoveFileSpec(tchTemp);
-		PathAppend(tchTemp, tchExeFile);
-		if (PathIsFile(tchTemp)) {
-			lstrcpy(tchExeFile, tchTemp);
-		}
-	}
-
-	if (StrNotEmpty(tchParam) && StrNotEmpty(pszFile)) {
-		StrCatBuff(tchParam, L" ", COUNTOF(tchParam));
-	}
-
-	if (StrNotEmpty(pszFile)) {
-		lstrcpy(tchTemp, pszFile);
-		PathQuoteSpaces(tchTemp);
-		StrCatBuff(tchParam, tchTemp, COUNTOF(tchParam));
-	}
-
-	SHELLEXECUTEINFO sei;
-	memset(&sei, 0, sizeof(SHELLEXECUTEINFO));
-
-	sei.cbSize = sizeof(SHELLEXECUTEINFO);
-	sei.fMask = SEE_MASK_FLAG_NO_UI | SEE_MASK_NOZONECHECKS;
-	sei.hwnd = hwnd;
-	sei.lpVerb = nullptr;
-	sei.lpFile = tchExeFile;
-	sei.lpParameters = tchParam;
-	sei.lpDirectory = nullptr;
-	sei.nShow = SW_SHOWNORMAL;
-
-	ShellExecuteEx(&sei);
-
-	if (AsInteger<INT_PTR>(sei.hInstApp) < 32) {
-		if (bWarn) {
-			if (MsgBoxWarn(MB_YESNO, IDS_ERR_BROWSE) == IDYES) {
-				OpenHelpLink(hwnd, IDM_HELP_LATEST_RELEASE);
-			}
-		} else if (StrNotEmpty(pszFile)) {
-			OpenContainingFolder(hwnd, pszFile, false);
-		}
-	}
-}
-
 char *EditGetStringAroundCaret(LPCSTR delimiters) noexcept {
 	const Sci_Position iCurrentPos = SciCall_GetCurrentPos();
 	const Sci_Line iLine = SciCall_LineFromPosition(iCurrentPos);
@@ -7091,8 +7034,6 @@ char *EditGetStringAroundCaret(LPCSTR delimiters) noexcept {
 
 	return EditGetTextRange(iLineStart, iLineEnd);
 }
-
-extern bool bOpenFolderWithMatepath;
 
 static DWORD EditOpenSelectionCheckFile(LPCWSTR link, wchar_t (&path)[MAX_PATH*2], LPWSTR wchDirectory) noexcept {
 	if (StrStartsWith(link, L"//")) {
@@ -7307,11 +7248,7 @@ void EditOpenSelection(OpenSelectionType type) {
 		break;
 
 		case OpenSelectionType_Folder:
-			if (bOpenFolderWithMatepath) {
-				TryBrowseFile(hwndMain, link, false);
-			} else {
-				OpenContainingFolder(hwndMain, link, false);
-			}
+			OpenContainingFolder(hwndMain, link, false);
 			break;
 
 		case OpenSelectionType_ContainingFolder:

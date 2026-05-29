@@ -115,8 +115,6 @@ def dump_stack_size():
 	with open(path, 'w', encoding='utf-8') as fd:
 		fd.write(''.join(output))
 
-#dump_static_linked_function('bin/Release/x64/matepath.map')
-#dump_static_linked_function('bin/Release/Win32/matepath.map')
 #dump_static_linked_function('bin/Release/x64/Notepad4.map')
 #dump_static_linked_function('bin/Release/Win32/Notepad4.map')
 dump_stack_size()

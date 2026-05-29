@@ -133,7 +133,6 @@ EXIT /B
 
 :SubZipFiles
 IF NOT EXIST "%1\Notepad4.exe" CALL (:SUBMSG "ERROR" "%1\Notepad4.exe NOT found" & EXIT /B)
-IF NOT EXIST "%1\matepath.exe" CALL (:SUBMSG "ERROR" "%1\matepath.exe NOT found" & EXIT /B)
 
 IF "%ZIP_SUFFIX%" == "" (SET "ZIP_NAME=Notepad4") ELSE (SET "ZIP_NAME=Notepad4_%ZIP_SUFFIX%")
 IF /I "%COMPILER%" == "MSVC" (
@@ -148,7 +147,7 @@ SET "TEMP_ZIP_DIR=temp_zip_dir"
 IF EXIST "%TEMP_ZIP_DIR%"     RD /S /Q "%TEMP_ZIP_DIR%"
 IF NOT EXIST "%TEMP_ZIP_DIR%" MD "%TEMP_ZIP_DIR%"
 
-FOR %%A IN ( "..\License.txt"  "%1\Notepad4.exe"  "%1\matepath.exe" "..\doc\Notepad4.ini" "..\matepath\doc\matepath.ini"
+FOR %%A IN ( "..\License.txt"  "%1\Notepad4.exe" "..\doc\Notepad4.ini"
 ) DO COPY /Y /B /V "%%A" "%TEMP_ZIP_DIR%\"
 COPY /Y /B /V "..\doc\Notepad4 DarkTheme.ini" "%TEMP_ZIP_DIR%\"
 IF "%WITH_LOCALE%" == "1" (

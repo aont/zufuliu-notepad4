@@ -712,7 +712,6 @@ BEGIN
 	POPUP "&Werkzeuge"
 	BEGIN
 		MENUITEM "Speichern vor &Werkzeugnutzung",			IDM_VIEW_SAVEBEFORERUNNINGTOOLS
-		MENUITEM "Nutze &matepath zum Öffnen von Ordnern",	IDM_SET_OPEN_FOLDER_MATEPATH
 		MENUITEM SEPARATOR
 		MENUITEM "Als &Administrator ausführen",			IDM_FILE_RELAUNCH_ELEVATED
 		MENUITEM "&Neustart",								IDM_FILE_RESTART
@@ -1836,7 +1835,6 @@ STRINGTABLE
 BEGIN
     IDS_ERR_LOADFILE        "Fehler beim Laden von ""%s""."
     IDS_ERR_SAVEFILE        "Fehler beim Speichern von ""%s""."
-    IDS_ERR_BROWSE          "matepath wurde nicht gefunden.\nDas Plugin kann von https://github.com/zufuliu/notepad4/releases\nheruntergeladen werden.\n\nDownloadseite öffnen?"
     IDS_ERR_MRUDLG          "Kein Zugriff auf die gewählte Datei möglich!\nSoll diese von der Liste entfernt werden?"
     IDS_ERR_CREATELINK      "Fehler beim Erstellen der Desktopverknüpfung."
     IDS_ERR_PREVWINDISABLED "Das existierende Notepad4 Fenster ist beschäftig oder hat eine geöffnetes Dialogfenster.\nSoll ein neues Notepad4 Fenster geöffnet werden?"

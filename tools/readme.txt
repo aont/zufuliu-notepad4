@@ -11,11 +11,8 @@ images:
 		Bottom right: Chinese character 宇 (universal)
 
 	res/OpenFolder.bmp	images/Open.svg
-	matepath/res/OpenFolder.bmp
-	matepath/res/Goto.ico
 
 	res/Run.ico			images/Launch.svg
-	matepath/res/Run.ico
 
 	16 color bitmap:
 		res/Prev.bmp		Prev.svg
@@ -29,7 +26,3 @@ images:
 	pngquant --force --verbose 256 --strip --output Notepad4-quant256.png Notepad4.png
 	save Notepad4-quant256.png as Notepad4-q256.png with Paint.NET
 	oxipng --strip all --nc --out Notepad4-256.png Notepad4-q256.png
-
-	pngquant --force --verbose 256 --strip --output matepath-quant256.png matepath.png
-	save matepath-quant256.png as matepath-q256.png with Paint.NET
-	oxipng --strip all --nc --out matepath-256.png matepath-q256.png

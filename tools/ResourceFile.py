@@ -63,7 +63,6 @@ def use_segoe_ui_font(doc):
 
 def update_all_resource_file(func):
 	func('../src/Notepad4.rc')
-	func('../matepath/src/matepath.rc')
 	for path in glob.glob('../locale/*/*.rc'):
 		func(path)
 

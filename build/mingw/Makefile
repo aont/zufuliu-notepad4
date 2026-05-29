@@ -152,11 +152,7 @@ endif
 export BINFOLDER := ../bin/$(if $(CLANG),Clang,)$(CONFIG)_$(ARCH)
 OBJDIR = $(BINFOLDER)/obj
 
-all: matepath scintilla notepad4
-
-matepath:
-	@mkdir -p $(OBJDIR)/matepath
-	$(MAKE) -f matepath.mk
+all: scintilla notepad4
 
 scintilla:
 	@mkdir -p $(OBJDIR)/scintilla
@@ -167,7 +163,6 @@ notepad4: scintilla
 	$(MAKE) -f notepad4.mk
 
 clean:
-	$(MAKE) -f matepath.mk clean
 	$(MAKE) -f scintilla.mk clean
 	$(MAKE) -f notepad4.mk clean
 	@$(RM) -rf $(OBJDIR)

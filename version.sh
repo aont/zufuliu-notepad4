@@ -95,17 +95,3 @@ if [[ "$newmanifest" != "$(<"$manifestfile")" ]]; then
   # Update the revision number in the manifest file
   echo "$newmanifest" > "$manifestfile"
 fi
-
-# Update matepath's manifest and version information
-if [[ $# -ne 0 ]]; then
-  versionfile="./matepath/src/VersionRev.h"
-  manifestfile="./matepath/res/matepath.exe.manifest"
-  if [[ ! -f "$versionfile" ]] || [[ "$version_info" != "$(<"$versionfile")" ]]; then
-    echo "$version_info" > "$versionfile"
-  fi
-
-  newmanifest="$(sed -Ee "s/(${base_ver}\.[0-9.]+)/${new_ver}/g" "$manifestfile")"
-  if [[ "$newmanifest" != "$(<"$manifestfile")" ]]; then
-    echo "$newmanifest" > "$manifestfile"
-  fi
-fi
